@@ -1,17 +1,17 @@
 "use client";
 
 type InputProps = {
-  type: string;
   placeholder?: string;
-  callback: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  callback: (e: string) => void;
 };
 
-const Input = ({ type, placeholder, callback }: InputProps) => {
+const Input = ({ placeholder, callback }: InputProps) => {
   return (
     <input
-      type={type}
+      className="border border-slate py-1 px-2 rounded-lg text-primary focus:outline-0"
+      type="text"
       placeholder={placeholder}
-      onChange={(e) => callback(e)}
+      onChange={(e) => callback(e.target.value)}
     />
   );
 };
