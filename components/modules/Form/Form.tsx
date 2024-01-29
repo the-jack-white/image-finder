@@ -4,20 +4,20 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 
-import { getRandomImage } from "@/utils/utils";
-import { DropdownOptions, Photo } from "@/types/types";
-import { Dropdown, Input } from "@/components";
+import { generateRandomNumber, getRandomImage } from "@/utils/utils";
+import { DropdownOptions, FormProps, Photo } from "@/types/types";
+import { Button, Dropdown, Input } from "@/components";
+import { useImage } from "@/context/ImageContext";
 
-const Form = () => {
+const Form = ({ modalCallback }: FormProps) => {
+  const { addImage } = useImage();
+
   const [name, setName] = useState<string | null>(null);
   const [surname, setSurname] = useState<string | null>(null);
   const [topic, setTopic] = useState<string | null>(null);
-
   const [otherSelected, setOtherSelected] = useState<boolean>(false);
-  const [other, setOther] = useState<string | null>(null);
-
   const [photoArray, setPhotoArray] = useState<Photo[]>([]);
-
+  const [startImageSearch, setStartImageSearch] = useState<boolean>(false);
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
   const dropdownOptions: DropdownOptions[] = [
@@ -48,10 +48,12 @@ const Form = () => {
       const randomImageObj = (await getRandomImage(topic)) as Photo;
       console.log("RANDOM img: ", randomImageObj);
       setPhotoArray([randomImageObj]);
+      setStartImageSearch(false);
     }
   };
 
   const onDropdownChange = (selectedTopic: string) => {
+    setPhotoArray([]); // Reset photoArray so when a user change topic whilst a photo is shown, you don't see multiple photos
     if (selectedTopic !== "other") {
       setOtherSelected(false);
       setTopic(selectedTopic);
@@ -60,69 +62,111 @@ const Form = () => {
     }
   };
 
-  const onOtherTopicChange = () => {};
+  const photoLoadingStatusHandler = () => {
+    setImageLoaded(true);
+  };
 
   const rejectImageHandler = () => {
+    setStartImageSearch(true);
     setPhotoArray([]);
     setImageLoaded(false);
     getImageHandler();
   };
 
+  const acceptImageHandler = () => {
+    if (name && surname && topic) {
+      const savedImage = {
+        id: `${name}_${surname}_${generateRandomNumber()}`,
+        name,
+        surname,
+        topic,
+        image: photoArray[0],
+      };
+
+      console.log("SAVE IMAGE: ", savedImage);
+      addImage(savedImage);
+      setName(null);
+      setSurname(null);
+      setTopic(null);
+      setPhotoArray([]);
+      setImageLoaded(false);
+      setStartImageSearch(false);
+      modalCallback(false);
+    } else {
+      alert("Please enter a First Name and Surname to continue");
+    }
+  };
+
   useEffect(() => {
-    getImageHandler();
+    if (topic) {
+      setStartImageSearch(true);
+      const timer = setTimeout(() => {
+        getImageHandler();
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
   }, [topic]);
 
   return (
-    <div className="mt-10 w-1/4">
+    <div className="px-8">
       <div className="flex flex-col gap-2">
-        <Input placeholder="First Name" callback={setName} />
-        <Input placeholder="Surname" callback={setSurname} />
-        <Dropdown options={dropdownOptions} callback={onDropdownChange} />
+        <Input
+          placeholder="First Name"
+          value={name ? name : ""}
+          callback={setName}
+        />
+        <Input
+          placeholder="Surname"
+          value={surname ? surname : ""}
+          callback={setSurname}
+        />
+        <Dropdown
+          options={dropdownOptions}
+          value={topic ? topic : "default"}
+          callback={onDropdownChange}
+        />
 
         {otherSelected && (
-          <Input placeholder="Please specify other topic" callback={setOther} />
+          <Input
+            placeholder="Please specify other topic"
+            value={topic ? topic : ""}
+            callback={setTopic}
+          />
         )}
       </div>
       <div className="mt-2 flex flex-col gap-2">
+        {startImageSearch && (
+          <div className="h-[400px] flex justify-center items-center">
+            <ClipLoader
+              loading={true}
+              color="#E10A93"
+              size={80}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </div>
+        )}
         {photoArray.map((photo) => (
           <div
             key={photo.id}
-            className="w-full h-[400px] flex flex-col items-center justify-center rounded"
+            className="w-full flex flex-col items-center justify-center rounded"
           >
             <Image
               alt={photo.alt}
               src={photo.portrait}
-              width={400}
-              height={400}
+              width={280}
+              height={300}
               className="rounded"
-              onLoad={() => setImageLoaded(true)}
+              onLoad={photoLoadingStatusHandler}
             />
-            {!imageLoaded && (
-              <ClipLoader
-                loading={true}
-                color="#E10A93"
-                size={80}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-              />
-            )}
           </div>
         ))}
 
         {imageLoaded && (
           <div className="flex justify-between">
-            <button
-              className="bg-slate text-gray py-1 px-2 rounded hover:text-secondary hover:shadow"
-              onClick={rejectImageHandler}
-            >
-              Reject
-            </button>
-            <button
-              className="bg-primary text-secondary py-1 px-2 rounded hover:bg-secondary hover:text-primary hover:shadow"
-              onClick={() => console.log("Save IMAGE")}
-            >
-              Accept
-            </button>
+            <Button title="Reject" callback={rejectImageHandler} isSecondary />
+            <Button title="Accept" callback={acceptImageHandler} />
           </div>
         )}
       </div>

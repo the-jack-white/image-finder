@@ -1,3 +1,15 @@
+export type ButtonProps = {
+  title: string;
+  isSecondary?: boolean;
+  callback: () => void;
+};
+
+export type InputProps = {
+  placeholder?: string;
+  value: string;
+  callback: (e: string) => void;
+};
+
 export type DropdownOptions = {
   value: string;
   name: string;
@@ -5,6 +17,7 @@ export type DropdownOptions = {
 
 export type DropdownProps = {
   options: DropdownOptions[];
+  value: string;
   callback: (n: string) => void;
 };
 
@@ -15,4 +28,29 @@ export type Photo = {
   landscape: string;
   height: number;
   width: number;
+};
+
+export type SavedImage = {
+  id: string;
+  name: string;
+  surname: string;
+  topic: string;
+  image: Photo;
+};
+
+export type ImageContextType = {
+  allSavedImages: SavedImage[];
+  setAllSavedImages: React.Dispatch<React.SetStateAction<SavedImage[]>>;
+  addImage: (image: SavedImage) => void;
+  removeImage: (id: string) => void;
+  editImage: (image: SavedImage, id: string) => void;
+};
+
+export type ModalProps = {
+  show: boolean;
+  callback: (n: boolean) => void;
+};
+
+export type FormProps = {
+  modalCallback: (n: boolean) => void;
 };

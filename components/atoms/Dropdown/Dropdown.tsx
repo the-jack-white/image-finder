@@ -1,11 +1,11 @@
 import { DropdownProps } from "@/types/types";
 
-const Dropdown = ({ options, callback }: DropdownProps) => {
+const Dropdown = ({ options, value, callback }: DropdownProps) => {
   return (
     <select
       className="border border-slate p-2 rounded-lg text-gray focus:outline-0"
       name="topics"
-      defaultValue="default"
+      value={value}
       onChange={(e) => callback(e.target.value)}
     >
       <option value="default" disabled>

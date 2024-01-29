@@ -3,7 +3,7 @@ import { createClient } from "pexels";
 const client = createClient(process.env.NEXT_PUBLIC_PEXELS_API_KEY as string);
 
 export const generateRandomNumber = () => {
-  return Math.ceil(Math.random() * 50);
+  return Math.ceil(Math.random() * 80);
 };
 
 export const getRandomImage = (topic: string) => {

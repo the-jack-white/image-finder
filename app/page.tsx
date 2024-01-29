@@ -1,15 +1,21 @@
-import { AppContainer, Form } from "@/components";
+"use client";
+
+import { AppContainer, Button, Form, Images, Modal } from "@/components";
+import { useState } from "react";
 
 export default function Home() {
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  console.log("SHOW Modal: ", showModal);
+
   return (
     <AppContainer>
-      {/* <div>
-        <button className="bg-primary text-secondary py-1 px-2 rounded hover:bg-secondary hover:text-primary hover:shadow">
-          Add Image
-        </button>
-      </div> */}
+      <section className="mt-10">
+        <Button title="Find Image" callback={() => setShowModal(!showModal)} />
+      </section>
 
-      <Form />
+      <Modal show={showModal} callback={setShowModal} />
+      <Images />
     </AppContainer>
   );
 }
