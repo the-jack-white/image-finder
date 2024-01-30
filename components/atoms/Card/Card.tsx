@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useImage } from "@/context/ImageContext";
 import { CardProps } from "@/types/types";
 
-const Card = ({ image }: CardProps) => {
+const Card = ({ image, callback }: CardProps) => {
   const { removeImage } = useImage();
 
   return (
@@ -14,6 +14,7 @@ const Card = ({ image }: CardProps) => {
           width={400}
           height={400}
           className="rounded-t-lg"
+          onClick={() => callback(image.id)}
         />
         <p className="leading-relaxed text-xs px-1 text-gray">
           {`${image.image.alt} - ${image.topic}`}

@@ -1,11 +1,10 @@
 import { ModalProps } from "@/types/types";
-import Form from "../Form/Form";
 
-const Modal = ({ heading, show, callback }: ModalProps) => {
+const Modal = ({ heading, show, callback, children }: ModalProps) => {
   return (
     show && (
-      <div className="absolute w-full h-dvh bg-slate bg-opacity-70 flex flex-col items-center">
-        <div className="w-[95%] sm:w-1/2 md:w-1/3 lg:w-1/4 bg-secondary rounded-md mt-10 p-4">
+      <div className="absolute top-0 z-50 w-full h-dvh bg-slate bg-opacity-70 flex flex-col items-center">
+        <div className="w-[95%] max-w-sm sm:w-1/2 lg:w-1/3 bg-secondary rounded-md mt-5 p-4">
           <div className="flex justify-between md:px-4">
             <h2 className="text-gray text-lg font-medium py-2">{heading}</h2>
             <a
@@ -13,7 +12,7 @@ const Modal = ({ heading, show, callback }: ModalProps) => {
               onClick={() => callback(false)}
             />
           </div>
-          <Form modalCallback={callback} />
+          {children}
         </div>
       </div>
     )

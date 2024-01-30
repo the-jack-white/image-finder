@@ -19,6 +19,7 @@ export const getRandomImage = (topic: string) => {
           alt,
           portrait: src.portrait,
           landscape: src.landscape,
+          original: src.original,
           height,
           width,
         });

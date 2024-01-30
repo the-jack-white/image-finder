@@ -8,6 +8,9 @@ const imageContextDefaultValues: ImageContextType = {
   allSavedImages: [],
   setAllSavedImages: () => {},
   addImage: () => {},
+  getImage: () => {
+    return {} as SavedImage;
+  },
   removeImage: () => {},
   editImage: () => {},
 };
@@ -28,6 +31,12 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
 
       return newImageState;
     });
+  };
+
+  const getImage = (id: string) => {
+    const filtered = allSavedImages.filter((image) => image.id === id);
+
+    return filtered[0];
   };
 
   const removeImage = (id: string) => {
@@ -52,6 +61,7 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
     allSavedImages,
     setAllSavedImages,
     addImage,
+    getImage,
     removeImage,
     editImage,
   };

@@ -27,6 +27,7 @@ export type Photo = {
   alt: string;
   portrait: string;
   landscape: string;
+  original: string;
   height: number;
   width: number;
 };
@@ -43,6 +44,7 @@ export type ImageContextType = {
   allSavedImages: SavedImage[];
   setAllSavedImages: React.Dispatch<React.SetStateAction<SavedImage[]>>;
   addImage: (image: SavedImage) => void;
+  getImage: (id: string) => SavedImage;
   removeImage: (id: string) => void;
   editImage: (image: SavedImage, id: string) => void;
 };
@@ -51,6 +53,7 @@ export type ModalProps = {
   heading: string;
   show: boolean;
   callback: (n: boolean) => void;
+  children: React.ReactNode;
 };
 
 export type FormProps = {
@@ -59,4 +62,5 @@ export type FormProps = {
 
 export type CardProps = {
   image: SavedImage;
+  callback: (n: string) => void;
 };

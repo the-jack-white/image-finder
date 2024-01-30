@@ -3,8 +3,9 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
+import { v4 as uuidv4 } from "uuid";
 
-import { generateRandomNumber, getRandomImage } from "@/utils/utils";
+import { getRandomImage } from "@/utils/utils";
 import { DropdownOptions, FormProps, Photo } from "@/types/types";
 import { Button, Dropdown, Input } from "@/components";
 import { useImage } from "@/context/ImageContext";
@@ -71,7 +72,7 @@ const Form = ({ modalCallback }: FormProps) => {
   const acceptImageHandler = () => {
     if (name && surname && topic) {
       const savedImage = {
-        id: `${name}_${surname}_${generateRandomNumber()}`,
+        id: uuidv4(),
         name,
         surname,
         topic,
@@ -118,7 +119,7 @@ const Form = ({ modalCallback }: FormProps) => {
         <Dropdown
           infoOption="Select your preferred topic"
           options={dropdownOptions}
-          value={topic ? topic : "default"}
+          value={topic && !otherSelected ? topic : "default"}
           callback={onDropdownChange}
         />
 
@@ -150,9 +151,9 @@ const Form = ({ modalCallback }: FormProps) => {
             <Image
               alt={photo.alt}
               src={photo.portrait}
-              width={280}
+              width={300}
               height={300}
-              className="rounded"
+              className="w-full rounded"
               onLoad={() => setImageLoaded(true)}
             />
           </div>
