@@ -53,7 +53,8 @@ const Form = ({ modalCallback }: FormProps) => {
   };
 
   const onDropdownChange = (selectedTopic: string) => {
-    setPhotoArray([]); // Reset photoArray so when a user change topic whilst a photo is shown, you don't see multiple photos
+    // Reset photoArray so when a user change topic whilst a photo is shown, you don't see multiple photos
+    setPhotoArray([]);
     if (selectedTopic !== "other") {
       setOtherSelected(false);
       setTopic(selectedTopic);
@@ -80,6 +81,8 @@ const Form = ({ modalCallback }: FormProps) => {
       };
 
       addImage(savedImage);
+
+      // Programatically reset all states
       setName(null);
       setSurname(null);
       setTopic(null);
@@ -133,7 +136,7 @@ const Form = ({ modalCallback }: FormProps) => {
       </div>
       <div className="mt-2 flex flex-col gap-2">
         {startImageSearch && (
-          <div className="h-[400px] flex justify-center items-center">
+          <div className="h-[300px] flex justify-center items-center">
             <ClipLoader
               loading={true}
               color="#E10A93"
@@ -151,9 +154,9 @@ const Form = ({ modalCallback }: FormProps) => {
             <Image
               alt={photo.alt}
               src={photo.portrait}
-              width={300}
+              width={280}
               height={300}
-              className="w-full rounded"
+              className="rounded"
               onLoad={() => setImageLoaded(true)}
             />
           </div>
