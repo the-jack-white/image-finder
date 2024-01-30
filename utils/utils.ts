@@ -1,3 +1,4 @@
+import { SavedImage } from "@/types/types";
 import { createClient } from "pexels";
 
 const client = createClient(process.env.NEXT_PUBLIC_PEXELS_API_KEY as string);
@@ -26,4 +27,17 @@ export const getRandomImage = (topic: string) => {
         reject(error);
       });
   });
+};
+
+export const saveToLocalStorage = (
+  storageId: string,
+  images: SavedImage[] | null
+) => {
+  localStorage.setItem(storageId, JSON.stringify(images));
+};
+
+export const retrieveLocalStorage = (storageId: string) => {
+  const jsonString = localStorage.getItem(storageId);
+
+  return jsonString ? JSON.parse(jsonString) : [];
 };

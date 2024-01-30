@@ -1,7 +1,8 @@
 "use client";
 
-import { ImageContextType, SavedImage } from "@/types/types";
 import { ReactNode, createContext, useContext, useState } from "react";
+import { ImageContextType, SavedImage } from "@/types/types";
+import { saveToLocalStorage } from "@/utils/utils";
 
 const imageContextDefaultValues: ImageContextType = {
   allSavedImages: [],
@@ -21,11 +22,17 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const [allSavedImages, setAllSavedImages] = useState<SavedImage[]>([]);
 
   const addImage = (image: SavedImage) => {
-    setAllSavedImages((prev) => [...prev, image]);
+    setAllSavedImages((prev) => {
+      const newImageState = [...prev, image];
+      saveToLocalStorage("images", newImageState);
+
+      return newImageState;
+    });
   };
 
   const removeImage = (id: string) => {
     const filtered = allSavedImages.filter((image) => image.id !== id);
+    saveToLocalStorage("images", filtered);
     setAllSavedImages(filtered);
   };
 

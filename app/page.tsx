@@ -1,12 +1,10 @@
 "use client";
 
-import { AppContainer, Button, Form, Images, Modal } from "@/components";
 import { useState } from "react";
+import { AppContainer, Button, Images, Modal, Version } from "@/components";
 
 export default function Home() {
   const [showModal, setShowModal] = useState<boolean>(false);
-
-  console.log("SHOW Modal: ", showModal);
 
   return (
     <AppContainer>
@@ -14,8 +12,9 @@ export default function Home() {
         <Button title="Find Image" callback={() => setShowModal(!showModal)} />
       </section>
 
-      <Modal show={showModal} callback={setShowModal} />
+      <Modal heading="Enter Details" show={showModal} callback={setShowModal} />
       <Images />
+      <Version />
     </AppContainer>
   );
 }

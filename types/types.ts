@@ -17,6 +17,7 @@ export type DropdownOptions = {
 
 export type DropdownProps = {
   options: DropdownOptions[];
+  infoOption: string;
   value: string;
   callback: (n: string) => void;
 };
@@ -47,10 +48,15 @@ export type ImageContextType = {
 };
 
 export type ModalProps = {
+  heading: string;
   show: boolean;
   callback: (n: boolean) => void;
 };
 
 export type FormProps = {
   modalCallback: (n: boolean) => void;
+};
+
+export type CardProps = {
+  image: SavedImage;
 };

@@ -1,31 +1,22 @@
 "use client";
 
+import { useEffect } from "react";
 import { useImage } from "@/context/ImageContext";
-import Image from "next/image";
+import { retrieveLocalStorage } from "@/utils/utils";
+import { Card } from "@/components";
 
 const Images = () => {
-  const { allSavedImages } = useImage();
+  const { allSavedImages, setAllSavedImages, removeImage } = useImage();
 
-  console.log("allSavedImages: ", allSavedImages);
+  useEffect(() => {
+    // See if there are any saved images in LocalStorage first
+    setAllSavedImages(retrieveLocalStorage("images"));
+  }, []);
+
   return (
     <section className="w-full flex justify-left flex-wrap">
       {allSavedImages.map((image) => (
-        <div className="p-4 max-w-sm" key={image.id}>
-          <div className="flex rounded-lg h-full border border-slate flex-col hover:shadow-xl">
-            <Image
-              alt={image.image.alt}
-              src={image.image.landscape}
-              width={400}
-              height={400}
-              className="rounded-t-lg"
-              // onLoad={photoLoadingStatusHandler}
-            />
-            <p className="leading-relaxed text-xs px-1 text-gray">
-              {`${image.image.alt} - ${image.topic}`}
-            </p>
-            <h2 className="text-primary text-lg font-medium py-2 px-4">{`${image.name} ${image.surname}`}</h2>
-          </div>
-        </div>
+        <Card key={image.id} image={image} />
       ))}
     </section>
   );

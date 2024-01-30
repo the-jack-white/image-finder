@@ -46,7 +46,6 @@ const Form = ({ modalCallback }: FormProps) => {
   const getImageHandler = async () => {
     if (topic) {
       const randomImageObj = (await getRandomImage(topic)) as Photo;
-      console.log("RANDOM img: ", randomImageObj);
       setPhotoArray([randomImageObj]);
       setStartImageSearch(false);
     }
@@ -60,10 +59,6 @@ const Form = ({ modalCallback }: FormProps) => {
     } else {
       setOtherSelected(true);
     }
-  };
-
-  const photoLoadingStatusHandler = () => {
-    setImageLoaded(true);
   };
 
   const rejectImageHandler = () => {
@@ -83,7 +78,6 @@ const Form = ({ modalCallback }: FormProps) => {
         image: photoArray[0],
       };
 
-      console.log("SAVE IMAGE: ", savedImage);
       addImage(savedImage);
       setName(null);
       setSurname(null);
@@ -109,7 +103,7 @@ const Form = ({ modalCallback }: FormProps) => {
   }, [topic]);
 
   return (
-    <div className="px-8">
+    <div className="px-4 md:px-8">
       <div className="flex flex-col gap-2">
         <Input
           placeholder="First Name"
@@ -122,6 +116,7 @@ const Form = ({ modalCallback }: FormProps) => {
           callback={setSurname}
         />
         <Dropdown
+          infoOption="Select your preferred topic"
           options={dropdownOptions}
           value={topic ? topic : "default"}
           callback={onDropdownChange}
@@ -158,7 +153,7 @@ const Form = ({ modalCallback }: FormProps) => {
               width={280}
               height={300}
               className="rounded"
-              onLoad={photoLoadingStatusHandler}
+              onLoad={() => setImageLoaded(true)}
             />
           </div>
         ))}
