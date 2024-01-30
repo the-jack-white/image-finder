@@ -103,7 +103,7 @@ const Form = ({ modalCallback }: FormProps) => {
   }, [topic]);
 
   return (
-    <div className="px-4 md:px-8">
+    <div className="md:px-4">
       <div className="flex flex-col gap-2">
         <Input
           placeholder="First Name"

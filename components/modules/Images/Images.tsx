@@ -14,7 +14,7 @@ const Images = () => {
   }, []);
 
   return (
-    <section className="w-full flex justify-left flex-wrap">
+    <section className="w-full flex flex-wrap justify-center sm:justify-left">
       {allSavedImages.map((image) => (
         <Card key={image.id} image={image} />
       ))}
