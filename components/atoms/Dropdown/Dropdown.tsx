@@ -7,6 +7,7 @@ const Dropdown = ({ options, value, infoOption, callback }: DropdownProps) => {
       name="topics"
       value={value}
       onChange={(e) => callback(e.target.value)}
+      data-testid="dropdown-select"
     >
       <option value="default" disabled>
         {infoOption}

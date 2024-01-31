@@ -8,7 +8,7 @@ export const generateRandomNumber = () => {
 };
 
 export const getRandomImage = (topic: string) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     client.photos
       .search({ query: topic, page: generateRandomNumber(), per_page: 1 })
       .then((photos: any) => {
@@ -23,9 +23,6 @@ export const getRandomImage = (topic: string) => {
           height,
           width,
         });
-      })
-      .catch((error) => {
-        reject(error);
       });
   });
 };

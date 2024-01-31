@@ -46,7 +46,6 @@ export type ImageContextType = {
   addImage: (image: SavedImage) => void;
   getImage: (id: string) => SavedImage;
   removeImage: (id: string) => void;
-  editImage: (image: SavedImage, id: string) => void;
 };
 
 export type ModalProps = {

@@ -10,6 +10,7 @@ const Input = ({ placeholder, callback, value }: InputProps) => {
       value={value}
       placeholder={placeholder}
       onChange={(e) => callback(e.target.value)}
+      data-testid="main-input"
     />
   );
 };

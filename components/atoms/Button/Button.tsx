@@ -9,6 +9,7 @@ const Button = ({ title, isSecondary, callback }: ButtonProps) => {
           : "bg-primary text-secondary hover:bg-secondary hover:text-primary"
       } `}
       onClick={callback}
+      data-testid="main-button"
     >
       {title}
     </button>

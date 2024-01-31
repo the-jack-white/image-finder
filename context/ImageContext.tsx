@@ -12,7 +12,6 @@ const imageContextDefaultValues: ImageContextType = {
     return {} as SavedImage;
   },
   removeImage: () => {},
-  editImage: () => {},
 };
 
 const ImageContext = createContext<ImageContextType>(imageContextDefaultValues);
@@ -45,25 +44,12 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
     setAllSavedImages(filtered);
   };
 
-  const editImage = (image: SavedImage, id: string) => {
-    const mappedTasks = allSavedImages.map((obj) => {
-      if (obj.id === id) {
-        return image;
-      } else {
-        return obj;
-      }
-    });
-
-    setAllSavedImages(mappedTasks);
-  };
-
   const value = {
     allSavedImages,
     setAllSavedImages,
     addImage,
     getImage,
     removeImage,
-    editImage,
   };
 
   return (
